@@ -2,16 +2,33 @@ using UnityEngine;
 
 public class movment : MonoBehaviour
 {
+    //VARIABLES
+    [SerializeField] private float moveSpeed;
+    [SerializeField] private float walkSpeed;
+    [SerializeField] private float runSpeed;
 
+    private Vector3 moveDirection;
 
+    //REFERENCES
+    private CharacterController controller;
 
-    // Update is called once per frame
-    void Update()
+    private void start()
     {
-        float xDirection = Input.GetAxis("Horizontal");
-        float zDirection = Input.GetAxis("Vertical");
+        controller = GetComponent<CharacterController>();
+    }
 
-        Vector3 MovmentDirection = new Vector3(xDirection, 0.0f, zDirection);
-        transform.position += MovmentDirection;
+    private void update()
+    {
+        Move();
+    }
+
+    private void Move()
+    {
+        float moveZ = Input.GetAxis("Vertical");
+
+        moveDirection = new Vector3 (0, 0, moveZ);
+        moveDirection *= walkSpeed;
+
+        controller.Move(moveDirection * Time.deltaTime);
     }
 }
